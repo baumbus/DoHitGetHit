@@ -1,0 +1,4 @@
+name: DoHitGetHit
+version: '${project.version}'
+main: io.github.baumbus.dohitgethit.DoHitGetHit
+api-version: 1.19

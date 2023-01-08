@@ -2,3 +2,19 @@ name: DoHitGetHit
 version: '${project.version}'
 main: io.github.baumbus.dohitgethit.DoHitGetHit
 api-version: 1.19
+website: https://www.github.com/baumbus/DoHitGetHit
+permissions:
+  dhgh.normal:
+    default: true
+  dhgh.immune:
+    default: false
+commands:
+  toggle:
+    description: Toggles the plugin on or off
+    usage: /toggle
+  change:
+    description: Change the value of the modifier
+    usage: /change [0 < float < 1]
+  show-config:
+    description: Shows all config values
+    usage: /show-config

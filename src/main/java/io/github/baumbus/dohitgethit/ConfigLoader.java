@@ -36,7 +36,8 @@ public class ConfigLoader {
             }
             properties.setProperty("modifier", Float.toString(mod));
         } catch (Exception ex) {
-            Bukkit.getServer().getLogger().log(Level.SEVERE, DoHitGetHit.pluginName + " Could not load config file", ex);
+            Bukkit.getServer().getLogger().log(Level.SEVERE, DoHitGetHit.pluginName + " Could not load config file");
+            Bukkit.getServer().getLogger().log(Level.SEVERE, DoHitGetHit.pluginName + " Loaded default config");
             setDefaultProperties();
         }
     }

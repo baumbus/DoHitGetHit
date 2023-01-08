@@ -10,6 +10,7 @@ import java.util.logging.Level;
 
 public final class DoHitGetHit extends JavaPlugin implements Listener {
 
+    public static final String pluginName = "[DoHitGetHit]";
     public static ConfigLoader configs;
 
     @Override
@@ -23,7 +24,7 @@ public final class DoHitGetHit extends JavaPlugin implements Listener {
             this.getCommand("change").setExecutor(new CommandChange());
             this.getCommand("show-config").setExecutor(new CommandShowConfig());
         } catch (Exception ex) {
-            getLogger().log(Level.SEVERE, "Could not register commands", ex);
+            getLogger().log(Level.SEVERE, DoHitGetHit.pluginName + " Could not register commands", ex);
         }
     }
 

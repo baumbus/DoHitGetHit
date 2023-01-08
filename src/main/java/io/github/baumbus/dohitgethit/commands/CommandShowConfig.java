@@ -8,8 +8,8 @@ import org.bukkit.command.CommandSender;
 public class CommandShowConfig implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        sender.sendMessage("The status is: " + Boolean.toString(DoHitGetHit.configs.getStatus()));
-        sender.sendMessage("The modifier is: " + Float.toString(DoHitGetHit.configs.getModifier()));
+        sender.sendMessage(DoHitGetHit.pluginName + " The status is: " + DoHitGetHit.configs.getStatus());
+        sender.sendMessage(DoHitGetHit.pluginName + " The modifier is: " + DoHitGetHit.configs.getModifier());
         return true;
     }
 }

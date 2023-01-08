@@ -10,7 +10,7 @@ public class CommandToggle implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!sender.isOp()) return false;
         DoHitGetHit.configs.setStatus(!DoHitGetHit.configs.getStatus());
-        sender.sendMessage("Status is now: " + (DoHitGetHit.configs.getStatus() ? "true" : "false"));
+        sender.sendMessage(DoHitGetHit.pluginName + " Status is now: " + DoHitGetHit.configs.getStatus());
         return true;
     }
 }

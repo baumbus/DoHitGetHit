@@ -13,7 +13,7 @@ public class CommandChange implements CommandExecutor {
         if (mod < 0) mod = 0.0f;
         if (1 < mod) mod = 1.0f;
         DoHitGetHit.configs.setModifier(mod);
-        sender.sendMessage("The modifier is now: " + Float.toString(DoHitGetHit.configs.getModifier()));
+        sender.sendMessage(DoHitGetHit.pluginName + " The modifier is now: " + DoHitGetHit.configs.getModifier());
         return true;
     }
 }

@@ -28,15 +28,15 @@ public class ConfigLoader {
             float mod = Float.parseFloat(properties.getProperty("modifier"));
             if (mod < 0) {
                 mod = 0.0f;
-                Bukkit.getServer().getLogger().info("Modifier was changed to 0.0");
+                Bukkit.getServer().getLogger().info(DoHitGetHit.pluginName + " Modifier was changed to 0.0");
             }
             if (1 < mod) {
                 mod = 1.0f;
-                Bukkit.getServer().getLogger().info("Modifier was changed to 1.0");
+                Bukkit.getServer().getLogger().info(DoHitGetHit.pluginName + " Modifier was changed to 1.0");
             }
             properties.setProperty("modifier", Float.toString(mod));
         } catch (Exception ex) {
-            Bukkit.getServer().getLogger().log(Level.SEVERE, "Could not load config file", ex);
+            Bukkit.getServer().getLogger().log(Level.SEVERE, DoHitGetHit.pluginName + " Could not load config file", ex);
             setDefaultProperties();
         }
     }
@@ -45,7 +45,7 @@ public class ConfigLoader {
         try {
             properties.store(Files.newOutputStream(Paths.get(propertiesPath)), null);
         } catch (Exception ex) {
-            Bukkit.getServer().getLogger().log(Level.SEVERE, "Could not save config file", ex);
+            Bukkit.getServer().getLogger().log(Level.SEVERE, DoHitGetHit.pluginName + " Could not save config file", ex);
         }
     }
 

@@ -1,6 +1,13 @@
 # DoHitGetHit
-A simple spigot plugin
 
-If you hit another player, your own health points will be cut to half
+## Features
+- If somebody is hit by another player, the attacker's health points will be cut in half
 
-But idk if its really works, because I currently can't test it.
+## Requirements
+
+### Runtime requirements:
+- Java 17
+- Bukkit, Spigot or Paper for Minecraft 1.19.3
+
+## Issues
+- [Issues tracker](https://github.com/baumbus/DoHitGetHit/issues)

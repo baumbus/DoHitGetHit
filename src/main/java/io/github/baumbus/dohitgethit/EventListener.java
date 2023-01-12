@@ -1,9 +1,12 @@
 package io.github.baumbus.dohitgethit;
 
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+
+import java.util.Objects;
 
 public class EventListener implements Listener {
     @EventHandler
@@ -13,8 +16,23 @@ public class EventListener implements Listener {
             Player whoWasHit = (Player) event.getEntity();
             Player whoHit = (Player) event.getDamager();
 
-            whoWasHit.setHealth(whoWasHit.getHealth() + event.getFinalDamage());
-            whoHit.setHealth(whoHit.getHealth() * DoHitGetHit.configs.getModifier());
+            double AttackedHealth = whoWasHit.getHealth() + event.getFinalDamage();
+            double AttackerHealth = whoHit.getHealth() * DoHitGetHit.configs.getModifier();
+
+            if (AttackedHealth > Objects.requireNonNull(whoWasHit.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue()) {
+                AttackedHealth = Objects.requireNonNull(whoWasHit.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
+            } else if (AttackedHealth < 0.0d) {
+                AttackedHealth = 0.0d;
+            }
+
+            if (AttackerHealth > Objects.requireNonNull(whoHit.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue()) {
+                AttackerHealth = Objects.requireNonNull(whoHit.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
+            } else if (AttackerHealth < 0.0d) {
+                AttackerHealth = 0.0d;
+            }
+
+            whoWasHit.setHealth(AttackerHealth);
+            whoHit.setHealth(AttackedHealth);
         }
     }
 }

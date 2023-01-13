@@ -1,68 +1,42 @@
 package io.github.baumbus.dohitgethit;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import org.bukkit.Bukkit;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Properties;
+import java.io.File;
 import java.util.logging.Level;
 
 public class ConfigLoader {
 
-    private final static String propertiesPath = "config/DHGH-config.properties";
-    private final Properties properties;
+    private final String CONFIG_PATH = "config/DHGH.yaml";
+    private ObjectMapper mapper;
+    private Config config;
 
     public ConfigLoader() {
-        properties = new Properties();
-        setDefaultProperties();
-    }
-
-    public void setDefaultProperties() {
-        properties.setProperty("modifier", "0.5");
-        properties.setProperty("status", "true");
-    }
-
-    public void loadProperties() {
+        mapper = new ObjectMapper(new YAMLFactory());
+        mapper.findAndRegisterModules();
         try {
-            properties.load(Files.newInputStream(Paths.get(propertiesPath)));
-            float mod = Float.parseFloat(properties.getProperty("modifier"));
-            if (mod < 0) {
-                mod = 0.0f;
-                Bukkit.getServer().getLogger().info(DoHitGetHit.pluginName + " Modifier was changed to 0.0");
-            }
-            if (1 < mod) {
-                mod = 1.0f;
-                Bukkit.getServer().getLogger().info(DoHitGetHit.pluginName + " Modifier was changed to 1.0");
-            }
-            properties.setProperty("modifier", Float.toString(mod));
+            config = mapper.readValue(new File(CONFIG_PATH), Config.class);
         } catch (Exception ex) {
-            Bukkit.getServer().getLogger().log(Level.SEVERE, DoHitGetHit.pluginName + " Could not load config file");
-            Bukkit.getServer().getLogger().log(Level.SEVERE, DoHitGetHit.pluginName + " Loaded default config");
-            setDefaultProperties();
+            Bukkit.getServer().getLogger().log(Level.SEVERE, "Couldn't load configs", ex);
+            config = new Config();
+            config.setModifier(0.5f);
+            config.setStatus(true);
         }
     }
 
-    public void saveProperties() {
+    public void saveConfig() {
+        mapper = new ObjectMapper(new YAMLFactory().disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER));
         try {
-            properties.store(Files.newOutputStream(Paths.get(propertiesPath)), null);
+            mapper.writeValue(new File(CONFIG_PATH), config);
         } catch (Exception ex) {
-            Bukkit.getServer().getLogger().log(Level.SEVERE, DoHitGetHit.pluginName + " Could not save config file", ex);
+            Bukkit.getServer().getLogger().log(Level.SEVERE, "Couldn't save the config", ex);
         }
     }
 
-    public boolean getStatus() {
-        return Boolean.parseBoolean(properties.getProperty("status"));
-    }
-
-    public void setStatus(boolean status) {
-        properties.setProperty("status", status ? "true" : "false");
-    }
-
-    public float getModifier() {
-        return Float.parseFloat(properties.getProperty("modifier"));
-    }
-
-    public void setModifier(float modifier) {
-        properties.setProperty("modifier", Float.toString(modifier));
+    public Config getConfig() {
+        return config;
     }
 }

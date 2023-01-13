@@ -18,3 +18,9 @@ commands:
   show-config:
     description: Shows all config values
     usage: /show-config
+  add-immune:
+    description: Adds a player to the immune list
+    usage: /add-immune
+  remove-immune:
+    description: Removes a player from the immune list
+    usage: /remove-immune

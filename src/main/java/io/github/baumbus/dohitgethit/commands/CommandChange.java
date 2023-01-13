@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+@SuppressWarnings("NullableProblems")
 public class CommandChange implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -12,8 +13,8 @@ public class CommandChange implements CommandExecutor {
         float mod = Float.parseFloat(args[0]);
         if (mod < 0) mod = 0.0f;
         if (1 < mod) mod = 1.0f;
-        DoHitGetHit.configs.setModifier(mod);
-        sender.sendMessage(DoHitGetHit.pluginName + " The modifier is now: " + DoHitGetHit.configs.getModifier());
+        DoHitGetHit.getConfigLoader().getConfig().setModifier(mod);
+        sender.sendMessage(DoHitGetHit.pluginName + " The modifier is now: " + DoHitGetHit.getConfigLoader().getConfig().getModifier());
         return true;
     }
 }

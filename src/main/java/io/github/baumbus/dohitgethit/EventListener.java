@@ -11,13 +11,15 @@ import java.util.Objects;
 public class EventListener implements Listener {
     @EventHandler
     public static void onHit(EntityDamageByEntityEvent event) {
-        if (!DoHitGetHit.configs.getStatus()) return;
+        if (!DoHitGetHit.getConfigLoader().getConfig().getStatus()) return;
         if (event.getEntity() instanceof Player && event.getDamager() instanceof Player) {
             Player whoWasHit = (Player) event.getEntity();
             Player whoHit = (Player) event.getDamager();
 
+
+
             double AttackedHealth = whoWasHit.getHealth() + event.getFinalDamage();
-            double AttackerHealth = whoHit.getHealth() * DoHitGetHit.configs.getModifier();
+            double AttackerHealth = whoHit.getHealth() * DoHitGetHit.getConfigLoader().getConfig().getModifier();
 
             if (AttackedHealth > Objects.requireNonNull(whoWasHit.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue()) {
                 AttackedHealth = Objects.requireNonNull(whoWasHit.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
@@ -32,7 +34,7 @@ public class EventListener implements Listener {
             }
 
             whoWasHit.setHealth(AttackerHealth);
-            whoHit.setHealth(AttackedHealth);
+            if (!DoHitGetHit.getConfigLoader().getConfig().getImmune().contains(whoHit.getUniqueId())) whoHit.setHealth(AttackedHealth);
         }
     }
 }

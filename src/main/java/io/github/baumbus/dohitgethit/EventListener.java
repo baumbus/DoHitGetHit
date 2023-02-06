@@ -33,8 +33,8 @@ public class EventListener implements Listener {
                 AttackerHealth = 0.0d;
             }
 
-            whoWasHit.setHealth(AttackerHealth);
-            if (!DoHitGetHit.getConfigLoader().getConfig().getImmune().contains(whoHit.getUniqueId())) whoHit.setHealth(AttackedHealth);
+            whoWasHit.setHealth(AttackedHealth);
+            if (!DoHitGetHit.getConfigLoader().getConfig().getImmune().contains(whoHit.getUniqueId())) whoHit.setHealth(AttackerHealth);
         }
     }
 }

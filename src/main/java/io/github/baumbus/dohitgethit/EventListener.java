@@ -13,54 +13,31 @@ public class EventListener implements Listener {
     @EventHandler
     public static void onHit(EntityDamageByEntityEvent event) {
         if (!DoHitGetHit.getConfigLoader().getConfig().getStatus()) return;
-        if (event.getEntity() instanceof Player && event.getDamager() instanceof Player) {
+        if (event.getEntity() instanceof Player ) {
             Player whoWasHit = (Player) event.getEntity();
-            Player whoHit = (Player) event.getDamager();
 
-            double AttackedHealth = whoWasHit.getHealth() + event.getFinalDamage();
-            double AttackerHealth = whoHit.getHealth() * DoHitGetHit.getConfigLoader().getConfig().getModifier();
+            if (event.getDamager() instanceof Player) hitHandler(whoWasHit, (Player) event.getDamager(), event);
+            if (event.getDamager() instanceof Arrow) hitHandler(whoWasHit, (Player) Objects.requireNonNull(((Arrow) event.getDamager()).getShooter()), event);
+        }
+    }
 
-            if (AttackedHealth > Objects.requireNonNull(whoWasHit.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue()) {
-                AttackedHealth = Objects.requireNonNull(whoWasHit.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
-            } else if (AttackedHealth < 0.0d) {
-                AttackedHealth = 0.0d;
-            }
+    public static void hitHandler(Player whoHit, Player whoWasHit, EntityDamageByEntityEvent event) {
+        double AttackedHealth = whoWasHit.getHealth() + event.getFinalDamage();
+        double AttackerHealth = whoHit.getHealth() * DoHitGetHit.getConfigLoader().getConfig().getModifier();
 
-            if (AttackerHealth > Objects.requireNonNull(whoHit.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue()) {
-                AttackerHealth = Objects.requireNonNull(whoHit.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
-            } else if (AttackerHealth < 0.0d) {
-                AttackerHealth = 0.0d;
-            }
-
-            whoWasHit.setHealth(AttackedHealth);
-            if (!DoHitGetHit.getConfigLoader().getConfig().getImmune().contains(whoHit.getUniqueId())) whoHit.setHealth(AttackerHealth);
+        if (AttackedHealth > Objects.requireNonNull(whoWasHit.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue()) {
+            AttackedHealth = Objects.requireNonNull(whoWasHit.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
+        } else if (AttackedHealth < 0.0d) {
+            AttackedHealth = 0.0d;
         }
 
-        if (event.getEntity() instanceof Player && event.getDamager() instanceof Arrow) {
-            Player whoWasHit = (Player) event.getEntity();
-            Arrow arrow = (Arrow) event.getDamager();
-
-            if (arrow.getShooter() instanceof Player) {
-                Player whoHit = (Player) arrow.getShooter();
-
-                double AttackedHealth = whoWasHit.getHealth() + event.getFinalDamage();
-                double AttackerHealth = whoHit.getHealth() * DoHitGetHit.getConfigLoader().getConfig().getModifier();
-
-                if (AttackedHealth > Objects.requireNonNull(whoWasHit.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue()) {
-                    AttackedHealth = Objects.requireNonNull(whoWasHit.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
-                } else if (AttackedHealth < 0.0d) {
-                    AttackedHealth = 0.0d;
-                }
-
-                if (AttackerHealth > Objects.requireNonNull(whoHit.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue()) {
-                    AttackerHealth = Objects.requireNonNull(whoHit.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
-                } else if (AttackerHealth < 0.0d) {
-                    AttackerHealth = 0.0d;
-                }
-
-                whoWasHit.setHealth(AttackedHealth);
-                if (!DoHitGetHit.getConfigLoader().getConfig().getImmune().contains(whoHit.getUniqueId())) whoHit.setHealth(AttackerHealth);
-            }
+        if (AttackerHealth > Objects.requireNonNull(whoHit.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue()) {
+            AttackerHealth = Objects.requireNonNull(whoHit.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
+        } else if (AttackerHealth < 0.0d) {
+            AttackerHealth = 0.0d;
         }
+
+        whoWasHit.setHealth(AttackedHealth);
+        if (!DoHitGetHit.getConfigLoader().getConfig().getImmune().contains(whoHit.getUniqueId())) whoHit.setHealth(AttackerHealth);
     }
 }

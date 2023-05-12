@@ -6,7 +6,7 @@
 
     <groupId>io.github.baumbus</groupId>
     <artifactId>DoHitGetHit</artifactId>
-    <version>0.2.5</version>
+    <version>0.2.6</version>
     <packaging>jar</packaging>
 
     <name>DoHitGetHit</name>
